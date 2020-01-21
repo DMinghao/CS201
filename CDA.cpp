@@ -7,13 +7,13 @@ class CDA{
     private:
         T * front; 
         T * end;
-        T[] array; 
+        T * array; 
         int length; 
         int capacity; 
         bool sorted; 
     public: 
-        CDA::CDA(){
-            CDA(4); 
+        CDA<T>::CDA(){
+            CDA(1); 
         }
 
         CDA::CDA(int s){
@@ -24,23 +24,34 @@ class CDA{
         }
 
         T& CDA::operator[](int i){
-            
+            if(i > length){
+                cout << "Error: Index out of bound" << endl; 
+                return NULL; 
+            }
         }
 
         void CDA::AddEnd(T v){
+            if(end != NULL){
 
+            }else return; 
         }
 
         void CDA::AddFront(T v){
+            if(front != NULL){
 
+            }else return; 
         }
 
         void CDA::DelEnd(){
+            if(end != NULL){
 
+            }else return; 
         }
 
         void CDA::DelFront(){
+            if(front != NULL){
 
+            }else return; 
         }
 
         int CDA::Length(){
@@ -80,7 +91,11 @@ class CDA{
         }
 
         int CDA::Search(T e){
+            if(sorted){
 
+            }else{
+
+            }
         }
 
         CDA::~CDA(){

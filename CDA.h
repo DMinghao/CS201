@@ -1,12 +1,12 @@
-#ifndef CDA_H
-#define CDA_H
+#ifndef _CDA_H_
+#define _CDA_H_
 
 template <typename T> 
 class CDA{
     private:
         T * front; 
         T * end;
-        T[] array; 
+        T * array; 
         int length; 
         int capacity; 
         bool sorted; 
@@ -31,4 +31,4 @@ class CDA{
         ~CDA();
 };
 
-#endif CDA_H
+#endif
