@@ -1,7 +1,7 @@
 #ifndef _CDA_H_
 #define _CDA_H_
 
-template <typename T> 
+template <class T> 
 class CDA{
     private:
         T * front; 
@@ -24,7 +24,7 @@ class CDA{
         bool Ordered();
         int SetOrdered();
         T Select(int k);
-        Void InsertionSort();
+        void InsertionSort();
         void QuickSort();
         void CountingSort(int m);
         int Search(T e);

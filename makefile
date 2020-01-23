@@ -1,3 +1,2 @@
-% g++ -c main.cpp
-% g++ -c CDA.cpp
-% g++ -o main.o CDA.o
+All: 
+	g++ -Wall main.cpp -o a.out
