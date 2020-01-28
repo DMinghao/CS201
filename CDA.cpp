@@ -12,17 +12,19 @@ class CDA{
         int capacity; 
         bool sorted; 
         int getNext(int p); 
-        bool resizeArray(bool flag);
-        void printArray(); 
+        int getPre(int p);
+        void resizeArray(bool flag);
+        
     public: 
+        void printArray(); 
         CDA();
         CDA(const CDA &a);
         CDA(int s);
         T& operator[](int i);
-        void AddEnd(T v);
-        void AddFront(T v);
-        void DelEnd();
-        void DelFront();
+        void addEnd(T v);
+        void addFront(T v);
+        void delEnd();
+        void delFront();
         int Length();
         int Capacity();
         int Clear();
@@ -38,41 +40,60 @@ class CDA{
 
 template <typename T>
 int CDA<T>::getNext(int p){
-    if(p == end) return end; 
-    else if(p == (capacity-1)) return 0; 
+    if(p == (capacity-1)) return 0; 
     else return ++p; 
 }
 
 template <typename T>
-bool CDA<T>::resizeArray(bool flag){
+int CDA<T>::getPre(int p){
+    if(p == 0) return (capacity -1); 
+    else return --p; 
+}
+
+template <typename T>
+void CDA<T>::resizeArray(bool flag){
     int i = 0;
-    T * newArray = new T[capacity]; 
-    capacity = flag ? capacity*2 : capacity/2;
+    int j = front; 
+    T * newArray = new T[(flag ? (capacity*2) : (capacity/2))]; 
     while(i < length){
-        newArray[i] = array[front]; 
-        front = getNext(front); 
-        i+=1; 
+        newArray[i] = array[j]; 
+        j = getNext(j); 
+        i++; 
     }
+    capacity = (flag ? (capacity*2) : (capacity/2));
     front = 0; 
     end = (length-1); 
+    delete[] array; 
     array = newArray; 
-    return flag; 
 }
 
 template <typename T>
 void CDA<T>::printArray(){
-    int i = 0; 
+    for (int i = 0; i < capacity; i++){
+        cout << " " << &array[i] << " : " << array[i]; 
+        if(i == front) cout << "\t\t\t<----- Front"; 
+        if(i == end) cout << "\t\t\t<----- End"; 
+        cout << endl; 
+    }
+    cout << "front  : " << front << " || end       : " << end << endl; 
+    cout << "length : " << length << " || capacity : " << capacity << endl; 
+    cout << "Array  : "; 
     int j = front; 
-    while(i<length){
-        cout << " " << array[j] << " "; 
+    while(j != end){
+        cout << array[j] << " " ; 
         j = getNext(j);
-        i++
     }
     cout << endl; 
 }
 
 template <typename T>
 CDA<T>::CDA(){
+    array = new T[1];
+    capacity = 1;
+    length = 0;
+    sorted = false;
+    front = -1; 
+    end = -1;
 }
 
 template <typename T>
@@ -83,7 +104,6 @@ CDA<T>::CDA(const CDA &a){
     length = a.length;
     capacity = a.capacity;
     sorted = a.sorted;
-    empty = a.empty; 
 }
 
 template <typename T>
@@ -92,56 +112,84 @@ CDA<T>::CDA(int s){
     capacity = s;
     length = 0;
     sorted = false;
+    front = -1; 
+    end = -1;
 }
 
 template <typename T>
 T& CDA<T>::operator[](int i){
-    if (i > length){
-        cout << "Error: Index out of bound" << endl;
-        return NULL;
-    }
-    else{
-        return &array[i];
+    if(i < length){
+        return array[((front + i)%capacity)];
+    }else{
+        cout << "Error: index out of bound" << endl; 
     }
 }
 
 template <typename T>
-void CDA<T>::AddEnd(T v){
-    if (end != NULL){
-        array[end+1] = v; 
-        end+=1; 
-        if(length == capacity) resizeArray(true); 
+void CDA<T>::addEnd(T v){
+    if (end != -1){
+        end = getNext(end); 
+        array[end] = v; 
+        length++; 
     }
     else{
         array[0] = v; 
-        size = 1; 
+        length = 1; 
         front = 0; 
         end = 0;
     }
+    if(length == capacity) resizeArray(true);
 }
 
 template <typename T>
-void CDA<T>::AddFront(T v){
-    if (front != NULL){
+void CDA<T>::addFront(T v){
+    if (front != -1){
+        front = getPre(front); 
+        array[front] = v; 
+        length++; 
     }
-    else
-        return;
+    else{
+        array[0] = v; 
+        length = 1; 
+        front = 0; 
+        end = 0;
+    }
+    if(length == capacity) resizeArray(true);
 }
 
 template <typename T>
-void CDA<T>::DelEnd(){
-    if (end != NULL){
-    }
-    else
+void CDA<T>::delEnd(){
+    if (end != -1){
+        end = getPre(end);
+        length--;
+        if(end == front){
+            end = front = -1; 
+            Clear();
+        }
+        if(length <= (capacity * 0.25) && end != -1) resizeArray(false); 
+        return; 
+    }else{
+        cout << "There are nothing in the array" << endl; 
         return;
+    }
 }
 
 template <typename T>
-void CDA<T>::DelFront(){
-    if (front != NULL){
-    }
-    else
+void CDA<T>::delFront(){
+    if (front != -1){
+        front = getNext(front);
+        length--;
+        if(end == front){
+            end = front = -1; 
+            Clear();
+        }
+        if(length <= (capacity * 0.25) && end != -1) resizeArray(false); 
+        return; 
+    }else{
+        cout << "There are nothing in the array" << endl; 
         return;
+    }
+    
 }
 
 template <typename T>
@@ -156,6 +204,13 @@ int CDA<T>::Capacity(){
 
 template <typename T>
 int CDA<T>::Clear(){
+    delete[] array; 
+    array = new T[1];
+    capacity = 1;
+    length = 0;
+    sorted = false;
+    front = -1; 
+    end = -1;
     return 0; 
 }
 
@@ -171,6 +226,7 @@ int CDA<T>::SetOrdered(){
 
 template <typename T>
 T CDA<T>::Select(int k){
+    return array[(front + k)%capacity];
 }
 
 template <typename T>
@@ -196,4 +252,5 @@ int CDA<T>::Search(T e){
 
 template <typename T>
 CDA<T>::~CDA(){
+    delete[] array; 
 }
