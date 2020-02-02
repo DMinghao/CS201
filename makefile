@@ -1,2 +1,2 @@
-All: 
-	g++ -Wall main.cpp -o a.out
+all: 
+	g++ phase1main.cpp  -o phase1

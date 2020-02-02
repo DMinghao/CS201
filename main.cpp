@@ -9,14 +9,15 @@ int main(){
     CDA<int> a = CDA<int>(); 
 
     for(int i = 0; i < 10; i++){
-        a.addEnd(i);
+        a.AddEnd(i);
     }
     for(int i = 0; i < 10; i++){
-        a.addFront(i);
+        a.AddFront(i);
     }
     
     for(int i = 0; i < 20; i++){
-        a.delFront();
+        a.DelFront();
+        //a.DelEnd();
     }
     
     a.printArray();
