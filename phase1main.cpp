@@ -3,10 +3,14 @@ using namespace std;
 #include "CDA.cpp"
 
 void foo(CDA<int> x) {
-	for (int i=0; i<x.Length()/2; i++)
+	for (int i=0; i<x.Length()/2; i++){
+		int temp = x[i];
 		x[i] = x[x.Length()/2+i];
+		x[x.Length()/2+i] = temp;
+	}
 	cout << "SetOrdered in foo is " << x.SetOrdered() << endl;
-		// x => "5 6 7 8 9 1 1 2 3 4 10" SetOrdered => -1	
+	for(int i = 0; i < x.Length(); i++) cout << x[i] << " "; cout << endl; 
+	// x => "5 6 7 8 9 1 1 2 3 4 10" SetOrdered => -1	
 }
 
 int main(){
@@ -66,12 +70,14 @@ int main(){
 	cout << "Ordered is " << A.Ordered() << endl;
 	// A => "-1 0 1 2 3 4 5 6 7 8 9 10" Ordered => True
 	//for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
-	A.DelFront(); A.DelFront(); A.AddEnd(5);
-	// A => "1 2 3 4 5 6 7 8 9 10 5"
+	A.DelFront(); A.DelFront(); A.AddEnd(1);
+	// A => "1 2 3 4 5 6 7 8 9 10 1"
+	for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
 	A.CountingSort(10);
 	// A => "1 1 2 3 4 5 6 7 8 9 10"
 	for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
 	foo(A);
 	cout << "Ordered is " << A.Ordered() << endl;
 	// A => "1 1 2 3 4 5 6 7 8 9 10" Ordered => True
+	for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
 }

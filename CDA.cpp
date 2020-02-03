@@ -8,6 +8,7 @@ class CDA{
         int front; 
         int end;
         T * array; 
+        T nothing; 
         int length; 
         int capacity; 
         bool sorted; 
@@ -97,11 +98,11 @@ CDA<T>::CDA(const CDA &a){
     if(this != &a){
         front = a.front; 
         end = a.end; 
-        array = new T[a.capacity];
-        for(int i = 0; i < capacity; i++) array[i] = a.array[i];
         length = a.length;
         capacity = a.capacity;
         sorted = a.sorted;
+        array = new T[capacity];
+        for(int i = 0; i < capacity; i++) array[i] = a.array[i];
     }
 }
 
@@ -120,11 +121,11 @@ CDA<T>& CDA<T>::operator=(const CDA &a){
     if(this != &a){
         front = a.front; 
         end = a.end; 
-        array = new T[a.capacity];
-        for(int i = 0; i < capacity; i++) array[i] = a.array[i];
         length = a.length;
         capacity = a.capacity;
         sorted = a.sorted;
+        array = new T[capacity];
+        for(int i = 0; i < capacity; i++) array[i] = a.array[i];
         return *this; 
     }
 }
@@ -135,7 +136,7 @@ T& CDA<T>::operator[](int i){
         return array[((front + i)%capacity)];
     }else{
         cout << "Error: index out of bound" << endl; 
-        exit(-1);
+        return nothing; 
     } 
 }
 
@@ -251,7 +252,7 @@ T CDA<T>::Select(int k){
         T *arr = new T[length]; 
         for(int i = 0; i < length; i++) arr[i] = array[((front + i)%capacity)];
         T ans =  kthSmallest(arr, 0, length-1, k);
-        free(arr); 
+        delete [] arr; 
         return ans; 
     }
 }
@@ -307,7 +308,6 @@ template <typename T>
 void CDA<T>::qSort(T arr[], int low, int high){
     if(high <= low) return; 
     T pivot = arr[low] + arr[high] + arr[(low + high) / 2] - min(min(arr[low], arr[high]),arr[(low + high) / 2]) - max(max(arr[low], arr[high]), arr[(low + high) / 2]);
-    //cout << pivot << endl; 
     int l = low; 
     int r = high; 
     while(l < r){
@@ -335,14 +335,27 @@ void CDA<T>::QuickSort(){
         for(int i = 0; i < length; i++) arr[i] = array[((front + i)%capacity)];
         qSort(arr, 0, length-1);
         for(int i = 0; i < length; i++) array[((front + i)%capacity)] = arr[i];
-        free(arr);
+        delete [] arr;
         sorted = true; 
     }
 }
 
 template <typename T>
 void CDA<T>::CountingSort(int m){
-
+    if(sorted) return; 
+    else{
+        int * countArr = new int[m+1]; 
+        for(int i = 0; i < m+1; i++) countArr[i] = 0; 
+        for(int i = 0; i < length; i++) ++countArr[array[(front + i) % capacity]];
+        for(int i = 0, j = 0; i < m+1 && j < length; i++){
+            while(countArr[i] != 0){
+                array[(front + j) % capacity] = i; 
+                --countArr[i]; 
+                ++j;
+            }
+        }
+        sorted = true; 
+    }
 }
 
 template <typename T>
