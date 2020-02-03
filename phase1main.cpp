@@ -32,13 +32,13 @@ int main(){
 	// C => "-200 -100 1 2 3 4 5 6 7 8"
 
 	CDA<int> A;
-	for(int i=0; i<100;i++) A.AddEnd(i);
+	for(int i=0; i<10;i++) A.AddEnd(i);
 	cout << "SetOrdered is " << A.SetOrdered() << endl;
 	// A => "0 1 2 3 4 5 6 7 8 9" SetOrdered => 1
 	cout << "Select is " << A.Select(3) << endl;
 	// A => "0 1 2 3 4 5 6 7 8 9" Select => 2
 	cout << "Search is " << A.Search(5) << endl;
-	// A => "0 1 2 3 4 5 6 7 8 9" Search => 6
+	// A => "0 1 2 3 4 5 6 7 8 9" Search => 5
 	cout << endl;
 	A.AddFront(10); 
 	// A => "10 0 1 2 3 4 5 6 7 8 9"
@@ -70,7 +70,7 @@ int main(){
 	// A => "1 2 3 4 5 6 7 8 9 10 5"
 	A.CountingSort(10);
 	// A => "1 1 2 3 4 5 6 7 8 9 10"
-	//for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
+	for (int i=0; i< A.Length();i++) cout << A[i] << " ";  cout << endl;
 	foo(A);
 	cout << "Ordered is " << A.Ordered() << endl;
 	// A => "1 1 2 3 4 5 6 7 8 9 10" Ordered => True

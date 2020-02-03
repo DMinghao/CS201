@@ -14,7 +14,6 @@ class CDA{
         int getNext(int p); 
         int getPre(int p);
         void resizeArray(bool flag);
-        bool checkOrder(int i);
         T kthSmallest(T arr[], int l, int r, int k);
         void iSort(T arr[], int low, int high);
         void qSort(T arr[], int low, int high);
@@ -68,11 +67,6 @@ void CDA<T>::resizeArray(bool flag){
     delete[] array; 
     array = newArray; 
 }
-
-// template <typename T>
-// bool CDA<T>::checkOrder(int i){
-//     return(i != front && array[getPre[i]] > array[i]);
-// }
 
 template <typename T>
 void CDA<T>::printArray(){
@@ -352,19 +346,21 @@ void CDA<T>::CountingSort(int m){
 }
 
 template <typename T>
-int CDA<T>::bSearch( int mid, T e){
-    if()
-}
-
-template <typename T>
 int CDA<T>::Search(T e){
-    int j = length / 2; 
     if (sorted){
-        while(array[(front + j) % capacity] != e){
-            
+        int len = length; 
+        int l = front; 
+        int r = end; 
+        while(len >= 1){
+            len /= 2; 
+            int m = (l + len) % capacity; 
+            if(array[m] == e) return m; 
+            if(array[m] < e) l = getNext(m); 
+            else r = getPre(m);
         }
+        return -1; 
     }
-    else for(int i = 0; i < length; i++) if(array[(front + i) % capacity] == e) return ((front + i) % capacity);
+    else for(int i = 0; i < length; i++) if(array[(front + i) % capacity] == e) return i;
 }
 
 template <typename T>
